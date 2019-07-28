@@ -40,11 +40,12 @@ if [[ -n $SITENAME && $ACTION == "add" ]]; then
 		echo "Папка /home/corvin/server/$SITENAME уже существует!"
 	fi
 	if [[ $DB == "Yes" ]]; then
-		echo 'Для создания базы данных введите пароль пользователя root MySQL:'
+		DBNAME=${SITENAME//./_}
+		echo "Для создания базы данных ${DBNAME} введите пароль пользователя root MySQL:"
 		read rootpasswd
-		mysql -uroot -p${rootpasswd} -e "CREATE DATABASE IF NOT EXISTS ${SITENAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
-    mysql -uroot -p${rootpasswd} -e "CREATE USER ${SITENAME}@localhost IDENTIFIED BY 'eTx1234';"
-    mysql -uroot -p${rootpasswd} -e "GRANT ALL PRIVILEGES ON ${SITENAME}.* TO '${SITENAME}'@'localhost';"
-    mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
+		mysql -uroot -p${rootpasswd} -e "CREATE DATABASE IF NOT EXISTS ${DBNAME} DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+		mysql -uroot -p${rootpasswd} -e "CREATE USER ${DBNAME}@localhost IDENTIFIED BY 'eTx1234';"
+		mysql -uroot -p${rootpasswd} -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO '${DBNAME}'@'localhost';"
+		mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
 	fi
 fi
